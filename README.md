@@ -10,13 +10,13 @@ Project Description goes here
 use this to generate image link: https://postimages.org/
 * Demo 1
 link goes here
-* Tie
+* Demo 2
 link goes here
 
 
 ## Design
 change the repo name:
-Can be found in https://github.com/Serenity0204/CPP_TEMPLATE/blob/master/design.txt
+Can be found in https://github.com/Serenity0204/CPP_SFML_TEMPLATE/blob/master/design.txt
 
 
 ## Features
