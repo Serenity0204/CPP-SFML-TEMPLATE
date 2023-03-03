@@ -1,11 +1,12 @@
 #ifndef ENGINE_H
 #define ENGINE_H
-#include <bits/stdc++.h>
+
 #include <SFML/Graphics.hpp>
 #include "../config/config.h"
 #include "../input_box/input_box.h"
 #include "../button/buttons.h"
 #include "../header/header.h"
+#include <string>
 using namespace std;
 
 

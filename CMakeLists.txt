@@ -87,6 +87,8 @@ ADD_EXECUTABLE(main
 
 
 TARGET_LINK_LIBRARIES(test_lib_app gtest)
+TARGET_LINK_LIBRARIES(main gtest)
+TARGET_LINK_LIBRARIES(test_lib_app sfml-graphics sfml-window sfml-system)
 TARGET_LINK_LIBRARIES(main sfml-graphics sfml-window sfml-system)
 ## copy resources file to build
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

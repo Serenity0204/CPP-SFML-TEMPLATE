@@ -1,10 +1,11 @@
 #ifndef BUTTONS_H
 #define BUTTONS_H
 
-#include <bits/stdc++.h>
+#include <vector>
 #include "../config/config.h"
 #include "button.h"
 #include <SFML/Graphics.hpp>
+#include <string>
 
 
 

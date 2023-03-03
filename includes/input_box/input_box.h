@@ -4,6 +4,7 @@
 #include <sstream>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
 // Define keys:
 #define DELETE_KEY 8
 #define ENTER_KEY 13

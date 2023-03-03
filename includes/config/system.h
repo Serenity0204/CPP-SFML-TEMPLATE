@@ -1,7 +1,8 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
-#include <bits/stdc++.h>
+
 #include <SFML/Graphics.hpp>
+#include <string>
 using namespace std;
 
 

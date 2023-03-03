@@ -1,8 +1,14 @@
 #ifndef CONFIG_H
 #define CONFIG_H
-#include <bits/stdc++.h>
+
 #include "system.h"
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
+#include <memory>
+#include <vector>
+#include <iomanip>
+#include <cassert>
+#include <string>
 using namespace std;
 
 
