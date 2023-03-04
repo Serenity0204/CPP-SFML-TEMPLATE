@@ -57,19 +57,12 @@ FetchContent_MakeAvailable(SFML)
 #   Grab all cpp files from includes folder
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 set(INCLUDES_FOLDER includes)
-set(LIB_FOLDER lib)
-set(APP_FOLDER app)
-
 FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${INCLUDES_FOLDER}/*.cpp" )
-FILE(GLOB_RECURSE LIB_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${LIB_FOLDER}/*.cpp" )
-FILE(GLOB_RECURSE APP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${APP_FOLDER}/*.cpp" )
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 ADD_EXECUTABLE(test_component_app
     _tests/_test_files/test_component_app.cpp
     ${SOURCE_FILES}
-    ${LIB_FILES}
-    ${APP_FILES}
 )
 
 
@@ -77,8 +70,6 @@ ADD_EXECUTABLE(test_component_app
 ADD_EXECUTABLE(main
     main.cpp
     ${SOURCE_FILES}
-    ${LIB_FILES}
-    ${APP_FILES}
 )
 
 
