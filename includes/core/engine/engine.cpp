@@ -22,8 +22,7 @@ void Engine::input()
     sf::Event event;
     while (this->_window.pollEvent(event))
     {
-        // calling update event helper functions
-        this->_update_buttons_event(event);
+
 
         // User quit
         if(event.type == sf::Event::Closed)
@@ -32,19 +31,26 @@ void Engine::input()
             this->_window.close();
             break;
         }
-        // User input text
+        
         if(event.type == sf::Event::TextEntered)
-        {
-            this->_input_box.typedOn(event);   
-            break;
-        }
-        // User press up and already entered bet
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        {
-            this->_update_input_box_event();
+        {  
+            bool ctrlC = (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::C));
+            bool ctrlX = (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::X));
+            bool ctrlV = (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::V));
+            bool ctrlA = (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::A));
+            if(!ctrlC && !ctrlX && !ctrlV && !ctrlA) this->_input_box.typedOn(event);
             break;
         }
 
+        // User press KEY
+        // if(sf::Keyboard::isKeyPressed(sf::Keyboard::YOUR_KEY))
+        // {
+        //     break;
+        // }
+
+        // calling update event helper functions
+        this->_update_buttons_event(event);
+        this->_update_keyboard_event();
         this->_input_box.update_input_box(this->_window, event);
     }
 }
@@ -114,8 +120,40 @@ void Engine::_init()
 
 
 
+// update events
+// *****************************************************************************************************************
 
-
+// update keyboard
+void Engine::_update_keyboard_event()
+{
+    // copy
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+        if(!this->_input_box.is_selected()) return;
+        cout << "copy:" << endl;
+        return;
+    }
+    // cut
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+    {
+        if(!this->_input_box.is_selected()) return;
+        cout << "cut:" << endl;
+        return;
+    }
+    // paste
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+    {
+        if(!this->_input_box.is_selected()) return;
+        cout << "paste:" << endl;
+        return;
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        if(!this->_input_box.is_selected()) return;
+        cout << "select" << endl;
+        return;
+    }
+}
 
 
 // update buttons event
@@ -139,7 +177,6 @@ void Engine::_update_buttons_event(sf::Event& event)
 }
 
 
-void Engine::_update_input_box_event()
-{
-    cout << "Input box event triggered" << endl;
-}
+
+
+// *****************************************************************************************************************

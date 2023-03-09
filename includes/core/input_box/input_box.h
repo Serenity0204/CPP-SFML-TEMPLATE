@@ -1,10 +1,9 @@
 #ifndef INPUT_BOX_H
 #define INPUT_BOX_H
 
-#include <sstream>
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <string>
+#include "../config/config.h"
 // Define keys:
 #define DELETE_KEY 8
 #define ENTER_KEY 13
@@ -12,10 +11,11 @@
 using namespace std;
 
 
-class InputBox {
+class InputBox 
+{
 public:
 	InputBox();
-	InputBox(int font_size,sf::Vector2f box_size, sf::Vector2f position ,sf::Color text_color, sf::Color box_color, bool sel, string text_str="");
+	InputBox(int font_size,sf::Vector2f box_size, sf::Vector2f position ,sf::Color text_color, sf::Color box_color, bool sel, string text_str="", bool need_new_l=true);
 	// Make sure font is passed by reference:
 	void setFont(sf::Font &fonts);
 
@@ -30,13 +30,15 @@ public:
 	void setSelected(bool sel);
 
 	std::string getText();
-
+	bool is_selected(){return this->isSelected;}
+	void clear_text();
+	void setColor(sf::Color color);
 	sf::Text& get_text_box(){return this->textbox;}
 	void drawTo(sf::RenderWindow &window);
 	// Function for event loop:
 	void typedOn(sf::Event &input);
-	void set_text(const string& str){ this->text += str;}
-	
+	void set_text(string str);
+	void set_text_no_limit(string str);
 	void update_input_box(sf::RenderWindow &window, sf::Event& event);	
 private:
 	sf::Text textbox;
@@ -44,6 +46,7 @@ private:
 	int init_text_len;
 	bool isSelected;
 	bool hasLimit;
+	bool need_new_line;
 	int limit;
 	sf::RectangleShape rect;
 

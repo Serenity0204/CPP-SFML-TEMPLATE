@@ -2,11 +2,12 @@
 #define ENGINE_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
 #include "../config/config.h"
 #include "../input_box/input_box.h"
 #include "../button/buttons.h"
 #include "../header/header.h"
-#include <string>
+#include "../../utils/middleware/middleware.h"
 using namespace std;
 
 
@@ -29,9 +30,11 @@ private:
     void _init();
     // update
     void _update_buttons_event(sf::Event& event);
-    void _update_input_box_event();
+    void _update_keyboard_event();
 
 public:
+    // friend class
+    friend class Middleware;
     // constructors and destructors
     Engine();
     ~Engine();

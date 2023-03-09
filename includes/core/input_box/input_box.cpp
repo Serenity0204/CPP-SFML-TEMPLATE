@@ -3,11 +3,12 @@
 
 InputBox::InputBox(){}
 
-InputBox::InputBox(int font_size,sf::Vector2f box_size, sf::Vector2f position ,sf::Color text_color, sf::Color box_color, bool sel, string text_str) 
+InputBox::InputBox(int font_size,sf::Vector2f box_size, sf::Vector2f position ,sf::Color text_color, sf::Color box_color, bool sel, string text_str, bool need_new_l) 
 {
     isSelected = false;
 	hasLimit = false;
     limit = 0;
+    need_new_line = need_new_l;
     rect.setSize(box_size); 
     rect.setFillColor(box_color); 
     rect.setPosition(position); 
@@ -17,17 +18,32 @@ InputBox::InputBox(int font_size,sf::Vector2f box_size, sf::Vector2f position ,s
     isSelected = sel;
 
     text = text_str;
-    init_text_len = text.length();
+    init_text_len = text_str.length();
     // Check if the textbox is selected upon creation and display it accordingly:
     if(isSelected)
         textbox.setString(text + "|");
     else
         textbox.setString(text);
 }
+void InputBox::setColor(sf::Color color)
+{
+    this->textbox.setFillColor(color);
+}
 
 
 
+void InputBox::set_text_no_limit(string str)
+{
+    text = str;
+    textbox.setString(text);
+}
 
+void InputBox::set_text(string str)
+{
+    text = str;
+    init_text_len = str.length();
+    textbox.setString(text);
+}
 
 // Make sure font is passed by reference:
 void InputBox::setFont(sf::Font &fonts) {
@@ -77,7 +93,10 @@ void InputBox::drawTo(sf::RenderWindow &window) {
 void InputBox::typedOn(sf::Event &input) {
     if (isSelected) {
         int charTyped = input.text.unicode;
-
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::C)) return;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::V)) return;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::X)) return;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) return;
         // Only allow normal inputs:
         if (charTyped < 128) {
             if (hasLimit) {
@@ -121,7 +140,7 @@ void InputBox::inputLogic(int charTyped) {
     // If the key pressed isn't delete, or the two selection keys, then append the text with the char:
     if (charTyped != DELETE_KEY && charTyped != ENTER_KEY && charTyped != ESCAPE_KEY) {
         text += static_cast<char>(charTyped);
-        if((text.length() + 1) % (int(rect.getSize().x / 15)) == 0) text += '\n';
+        if(need_new_line && (text.length() + 1) % (int(rect.getSize().x / CHAR_DIVIDE)) == 0) text += '\n';
     }
     // If the key is delete, then delete the char:
     if (charTyped == DELETE_KEY) {
@@ -164,4 +183,12 @@ void InputBox::update_input_box(sf::RenderWindow &window, sf::Event& event) {
         }
     }
     if(clicked || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) this->setSelected(false);
+}
+
+
+void InputBox::clear_text()
+{
+    text = "";
+    init_text_len = text.length();
+    textbox.setString(text);
 }
