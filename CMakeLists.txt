@@ -60,8 +60,8 @@ set(INCLUDES_FOLDER includes)
 FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${INCLUDES_FOLDER}/*.cpp" )
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-ADD_EXECUTABLE(test_component_app
-    _tests/_test_files/test_component_app.cpp
+ADD_EXECUTABLE(my_test
+    _tests/_test_files/my_test.cpp
     ${SOURCE_FILES}
 )
 
@@ -77,9 +77,9 @@ ADD_EXECUTABLE(main
 
 
 
-TARGET_LINK_LIBRARIES(test_component_app gtest)
+TARGET_LINK_LIBRARIES(my_test gtest)
 TARGET_LINK_LIBRARIES(main gtest)
-TARGET_LINK_LIBRARIES(test_component_app sfml-graphics sfml-window sfml-system)
+TARGET_LINK_LIBRARIES(my_test sfml-graphics sfml-window sfml-system)
 TARGET_LINK_LIBRARIES(main sfml-graphics sfml-window sfml-system)
 ## copy resources file to build
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

@@ -6,18 +6,11 @@ project structure:
     --demo // used to store demo for project
     
     --includes // where all of the code reside
-      --core // preexisting sfml code
         --button // clickable button class, and buttons class for the button used in this project
         --config // managing global resource, and system variables
         --engine // processing input/output and updating the screen
         --header // header class to show to the screen
         --input_box // input box that allows user to input from Keyboard
-
-      --app // where all of the sfml headers for this project reside
-
-      --component // where all of the non sfml headers reside
-      
-      --utils // middleware and helper function
         --middleware // retrieve/input data from/to engine
         --helper // helper functions
 
