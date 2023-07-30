@@ -75,7 +75,6 @@ ADD_EXECUTABLE(main
     ${SOURCE_FILES}
 )
 
-target_compile_features(main PRIVATE cxx_std_11)  # Specify the C++11 standard explicitly
 TARGET_LINK_LIBRARIES(my_test sfml-graphics sfml-window sfml-system)
 TARGET_LINK_LIBRARIES(main sfml-graphics sfml-window sfml-system)
 TARGET_LINK_LIBRARIES(my_test GTest::gtest_main)
