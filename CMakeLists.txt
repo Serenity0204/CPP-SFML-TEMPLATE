@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR) #FetchContent_MakeAvailable
 project(Project_Name)
 
 #. . . . . . . . . . . . . . . . . . . .
@@ -11,8 +11,6 @@ else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
-# Set policies
-cmake_policy(SET CMP0135 NEW)
 
 # place binaries and libraries according to GNU standards
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
@@ -24,24 +22,25 @@ endif()
 #. . . . . . . . . . . . . . . . . . . .
 
 # ------------------------------------
+# ------------------------------------
+find_package(GTest QUIET)
+if (NOT ${GTest_FOUND}) # GTest not found, FetchContent!
 include(FetchContent)
 FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
-)
-
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG        v1.13.0)
 FetchContent_MakeAvailable(googletest)
-
-# GoogleTest requires at least C++11
-set(CMAKE_CXX_STANDARD 11)
-
-enable_testing()
+endif()
+    
+# GoogleTest requires at least C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# ------------------------------------
 
 # ------------------------------------
 
-set(SFML_VERSION "2.5.1")
+set(SFML_VERSION "2.6.0")
 
 # Declare SFML as an external project
 FetchContent_Declare(
@@ -52,11 +51,17 @@ FetchContent_Declare(
 # Build SFML as part of the project
 FetchContent_MakeAvailable(sfml)
 
+# Set the C++ standard for SFML
+target_compile_features(sfml-graphics PUBLIC cxx_std_11)
+target_compile_features(sfml-window PUBLIC cxx_std_11)
+target_compile_features(sfml-system PUBLIC cxx_std_11)
+
+
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #   Grab all cpp files from includes folder
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 set(INCLUDES_FOLDER includes)
-FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${INCLUDES_FOLDER}/*.cpp" )
+FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS "${INCLUDES_FOLDER}/*.cpp")
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ADD_EXECUTABLE(my_test
@@ -64,12 +69,6 @@ ADD_EXECUTABLE(my_test
     ${SOURCE_FILES}
 )
 
-target_compile_features(my_test PRIVATE cxx_std_11)  # Specify the C++11 standard explicitly
-
-# Disable deprecated-declarations warning for library-related code
-if (CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    set_source_files_properties(<library_source_file.cpp> PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
-endif()
 
 ADD_EXECUTABLE(main
     main.cpp
@@ -77,11 +76,11 @@ ADD_EXECUTABLE(main
 )
 
 target_compile_features(main PRIVATE cxx_std_11)  # Specify the C++11 standard explicitly
-
-TARGET_LINK_LIBRARIES(my_test gtest)
-TARGET_LINK_LIBRARIES(main gtest)
 TARGET_LINK_LIBRARIES(my_test sfml-graphics sfml-window sfml-system)
 TARGET_LINK_LIBRARIES(main sfml-graphics sfml-window sfml-system)
+TARGET_LINK_LIBRARIES(my_test GTest::gtest_main)
+TARGET_LINK_LIBRARIES(main GTest::gtest_main)
+
 
 ## copy resources file to build
-file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
